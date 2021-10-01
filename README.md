@@ -3,6 +3,9 @@ Simple script to create a chloropleth map of London with categorical timeseries 
 
 The script in `main.py` creates a gif of the most frequent animal types rescued by the London Fire Brigade over the
 years, by borough. 
+This is what that looks like:
+
+<img src="fig/final.gif" width="300" alt="rescues per borough GIF">
 
 It also performs some cleaning of the dataset, i.e.:
 * removing boroughs that are not part of Greater London.
