@@ -43,7 +43,7 @@ def data_cleaning_and_loading():
     :return:
     """
     # DATA CLEANING AND LOADING
-    df = pd.read_csv("Animal Rescue incidents attended by LFB from Jan 2009.csv", encoding="mbcs")
+    df = pd.read_csv("data/Animal Rescue incidents attended by LFB from Jan 2009.csv", encoding="mbcs")
     df["Borough"] = df.Borough.str.lower()
     # filter out boroughs that aren't in Greater London
     df = df[~df.Borough.isin(["brentwood", "broxbourne", "epping forest", "tandridge"])]
@@ -52,7 +52,7 @@ def data_cleaning_and_loading():
     # shorten "Unknown - ...." animal entries to just "Unknown"
     df.loc[df['AnimalGroupParent'].str.contains('Unknown'), 'AnimalGroupParent'] = 'Unknown'
 
-    fp = "statistical-gis-boundaries-london/ESRI/London_Borough_Excluding_MHW.shp"
+    fp = "data/London_Borough_Excluding_MHW.shp"
     map_df = gpd.read_file(fp)
     map_df["NAME"] = map_df.NAME.str.lower()
     # get the center of each borough
