@@ -5,7 +5,7 @@ The script in `main.py` creates a gif of the most frequent animal types rescued 
 years, by borough. 
 This is what that looks like:
 
-<img src="fig/final.gif" width="300" alt="rescues per borough GIF">
+<img src="fig/final.gif" width="450" alt="rescues per borough GIF">
 
 It also performs some cleaning of the dataset, i.e.:
 * removing boroughs that are not part of Greater London.
