@@ -1,3 +1,7 @@
+"""
+Script to clean LFB animal rescue data and create an animated map over time of the most frequently rescued animals per
+borough.
+"""
 
 import imageio as imageio
 import matplotlib.pyplot as plt
@@ -6,6 +10,7 @@ import pandas as pd
 import geopandas as gpd
 
 # colourmap settings
+# the map is matplotlib's Dark2, with one fewer colour.
 norm = matplotlib.colors.Normalize(vmin=0, vmax=7)
 
 cm = matplotlib.colors.ListedColormap(((0.10588235294117647, 0.6196078431372549, 0.4666666666666667),
@@ -18,11 +23,25 @@ cm = matplotlib.colors.ListedColormap(((0.10588235294117647, 0.6196078431372549,
 
 
 def run():
+    """
+    Call the two functions.
+    :return:
+    """
     geometry_df, grouped_df = data_cleaning_and_loading()
-    make_complex_plot(geometry_df, grouped_df)  # make the plots
+    make_plots_and_gif(geometry_df, grouped_df)  # make the plots
 
 
 def data_cleaning_and_loading():
+    """
+    Load the data into dataframes and clean them.
+    * convert borough names to lower case
+    * remove entries with boroughs that aren't part of Greater London (excluding City of London)
+    * remove entries without a borough
+    * shorted "Unknown - ..." entries
+    * calculate centre coordinates of boroughs
+    * normalise number of hectares to be between -1 and 1.
+    :return:
+    """
     # DATA CLEANING AND LOADING
     df = pd.read_csv("Animal Rescue incidents attended by LFB from Jan 2009.csv", encoding="mbcs")
     df["Borough"] = df.Borough.str.lower()
@@ -52,7 +71,13 @@ def data_cleaning_and_loading():
     return map_df, agg_df
 
 
-def make_complex_plot(map_df, data_df):
+def make_plots_and_gif(map_df, data_df):
+    """
+    Create the individual frames and final gif. Save them all down in fig/
+    :param map_df: dataframe with London mapping info
+    :param data_df: dataframe with animal type info
+    :return:
+    """
     gif_img = []
     merged = data_df.join(map_df.set_index('NAME'), on=['Borough'])  # combined dfs
 
@@ -94,4 +119,5 @@ def make_complex_plot(map_df, data_df):
     imageio.mimsave("fig/final.gif", gif_img, format='GIF', duration=durations)
 
 
-run()
+if __name__ == '__main__':
+    run()
